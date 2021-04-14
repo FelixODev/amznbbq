@@ -2,5 +2,5 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - init: npm install && npm run build
-    command: npm run start
+  - init: npm install && npm i -g @ionic/cli firebase-tools @angular/fire
+    command: firebase login --no-localhost
