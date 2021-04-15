@@ -1,0 +1,82 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+
+
+  <div id="container">
+    <h1>
+      Korean BBQ Meet-up
+    </h1>
+    <p>No personal data required. Sessions are maintained through cookies.</p>
+    <hr>
+    <div class="ion-padding-bottom">
+      <h1 class="ion-text-start" style="font-size:xx-large;">Profile</h1>
+      <ion-card mode="ios" class="ion-no-margin">
+        <ion-list class="ion-margin-top">
+          <ion-item>
+            <ion-icon slot="start" name="person-outline"></ion-icon>
+            <ion-input autocapitalize="words" placeholder="Your Name" [(ngModel)]="user.displayName"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-icon slot="start" name="chatbubbles-outline"></ion-icon>
+            <ion-input autocapitalize="sentences" placeholder="Something you want to mention" [(ngModel)]="user.displayMessage"></ion-input>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon slot="start" name="id-card-outline"></ion-icon>
+            <ion-label>
+              <ion-note>
+              {{user?.uid}}
+              </ion-note>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card>
+    </div>
+
+
+    <div class="ion-padding-bottom">
+      <h1 class="ion-text-start" style="font-size:xx-large;">Preferences</h1>
+      <ion-card mode="ios" class="ion-no-margin">
+        <ion-list class="ion-margin-top">
+          <ion-item>
+            <ion-icon slot="start" name="calendar-outline"></ion-icon>
+            <ion-label>Prefered Days</ion-label>
+            <ion-select mode="ios" multiple="true" placeholder="Choose" okText="Okay" cancelText="Dismiss" [(ngModel)]="user.preferedDays">
+              <ion-select-option value="Sunday" [disabled]="true">Sunday</ion-select-option>
+              <ion-select-option value="Monday">Monday</ion-select-option>
+              <ion-select-option value="Tuesday">Tuesday</ion-select-option>
+              <ion-select-option value="Wednesday">Wednesday</ion-select-option>
+              <ion-select-option value="Thursday">Thursday</ion-select-option>
+              <ion-select-option value="Friday">Friday</ion-select-option>
+              <ion-select-option value="Saturday" [disabled]="true">Saturday</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-icon slot="start" name="alarm-outline"></ion-icon>
+            <ion-label>Prefered Times</ion-label>
+            <ion-select mode="ios" multiple="true" placeholder="Choose" okText="Okay" cancelText="Dismiss" [(ngModel)]="user.preferedTimes">
+              <ion-select-option value="morning">Morning</ion-select-option>
+              <ion-select-option value="afternoon">Afternoon</ion-select-option>
+              <ion-select-option value="evening">Evening</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon slot="start" name="storefront-outline"></ion-icon>
+            <ion-label>K-BBQ Spots</ion-label>
+            <ion-select mode="ios" multiple="true" placeholder="Choose" okText="Okay" cancelText="Dismiss" [(ngModel)]="user.preferedPlaces">
+              <ion-select-option value="1640 Camino Del Rio N #fs12">356 Korean BBQ</ion-select-option>
+              <ion-select-option value="4428 Convoy St">Manna Korean BBQ</ion-select-option>
+              <ion-select-option value="7655 Clairemont Mesa Blvd Ste 501">Taeguki Korean BBQ House</ion-select-option>
+              <ion-select-option value="5580 Clairemont Mesa Blvd">Buga Korean Barbecue Restaurant</ion-select-option>
+              <ion-select-option value="7905 Engineer Rd">Dae Jang Keum</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-list>
+      </ion-card>
+    </div>
+    <ion-button (click)="update()" mode="ios" expand="block" class="ion-no-margin ion-margin-vertical">
+      Update
+    </ion-button>
+    <img src="/src/assets/gifs/cuteeat.gif" alt="" class="bottom-right">
+  </div>
+
+
+</ion-content>

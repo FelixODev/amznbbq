@@ -28,4 +28,16 @@
   text-decoration: none;
 }
 
-hr {background: var(--ion-color-light)}
+hr {background: var(--ion-color-light-shade)}
+
+.bottom-right {
+  position: absolute;
+  bottom: 10%;
+  right: 10%;
+}
+
+.bottom-left {
+  position: absolute;
+  bottom: 10%;
+  left: 10%;
+}
