@@ -19,9 +19,11 @@ export class HomePage  {
   ionViewDidEnter() {
     this.user$.state$.subscribe(async u => {
       if(u) {
-        u = await this.user$.get();
-        this.user = u;
-        this.updated = u;
+        let usr = await this.user$.get()||{
+          uid: u.uid
+        };
+        this.user = usr;
+        this.updated = this.user;
       }
     });
   }
