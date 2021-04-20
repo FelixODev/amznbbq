@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UserService } from 'src/app/services/fire.service';
 import { User } from 'functions/src/models/user';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,8 @@ import { User } from 'functions/src/models/user';
 export class HomePage  {
 
   constructor(
-    private user$: UserService
+    private user$: UserService,
+    private alert: AlertController
   ) {}
 
   user:User | any = {};
@@ -28,6 +30,19 @@ export class HomePage  {
     });
   }
 
+  async addDate() {
+    if(Array.isArray(this.user?.excludeDates)){
+      if(this.user.excludeDates.includes(null)){
+        await this.showAlert("Please enter a date first");
+      } else {
+        this.user.excludeDates.push(null);
+      }
+    } else {
+      this.user.excludeDates = [];
+      this.user.excludeDates.push(null);
+    }
+  }
+
   async update() {
     // if(!this.disable())
     await this.user$.update(this.user);
@@ -36,6 +51,16 @@ export class HomePage  {
 
   disable(){
     return (JSON.stringify(this.user) == JSON.stringify(this.updated))?true:false;
+  }
+
+  async showAlert(m: string, h?: string) {
+    const a = await this.alert.create({
+      header: h||'Alert',
+      message: m,
+      mode: 'ios',
+      buttons: ['Dismiss']
+    });
+    return await a.present()
   }
 
 }

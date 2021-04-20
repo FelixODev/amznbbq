@@ -83,10 +83,13 @@
       <h1 class="ion-text-start" style="font-size:xx-large;">Exclusions</h1>
       <ion-card mode="ios" class="ion-no-margin">
         <ion-list class="ion-margin-top">
-          <ion-item>
+          <ion-item *ngFor="let ued of user?.excludeDates; let i = index">
             <ion-icon slot="start" name="calendar-outline"></ion-icon>
             <ion-label>Exclude Dates</ion-label>
-            <ion-input type="date" multiple="true" [(ngModel)]="user.excludeDates"></ion-input>
+            <ion-input type="date" multiple="true" [(ngModel)]="user.excludeDates[i]"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-button slot="end" (click)="addDate()">Add Date</ion-button>
           </ion-item>
         </ion-list>
       </ion-card>
