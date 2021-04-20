@@ -87,6 +87,9 @@
             <ion-icon slot="start" name="calendar-outline"></ion-icon>
             <ion-label>Exclude Dates</ion-label>
             <ion-input type="date" multiple="true" [(ngModel)]="user.excludeDates[i]"></ion-input>
+            <ion-button slot="end" fill="clear" (click)="removeDate(i)">
+              <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+            </ion-button>
           </ion-item>
           <ion-item>
             <ion-button slot="end" (click)="addDate()">Add Date</ion-button>

@@ -95,7 +95,7 @@ export class UserService {
     } catch(e) {
       const a = await this.alert.create({
         header: "No Record Update",
-        message: `If the problem persists please contact Felix...`,
+        message: `Please refresh and try again. If the problem persists please contact Felix...`,
         buttons: ['Ok'],
         mode:"ios"
       });
