@@ -86,7 +86,7 @@
           <ion-item>
             <ion-icon slot="start" name="calendar-outline"></ion-icon>
             <ion-label>Exclude Dates</ion-label>
-            <ion-input type="date" multiple="true"></ion-input>
+            <ion-input type="date" multiple="true" [(ngModel)]="user.excludeDates"></ion-input>
           </ion-item>
         </ion-list>
       </ion-card>
