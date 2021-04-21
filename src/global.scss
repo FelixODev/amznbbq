@@ -32,3 +32,47 @@ ion-card {
     --border-color: transparent;
   }
 }
+
+#container {
+  // text-align: center;
+
+  // position: absolute;
+  // left: 0;
+  // right: 0;
+  // top: 35%;
+  // transform: translateY(-50%);
+  margin: auto;
+  max-width: 678px;
+}
+
+#container strong {
+  font-size: 20px;
+  line-height: 26px;
+}
+
+#container p {
+  font-size: 16px;
+  line-height: 22px;
+
+  color: #8c8c8c;
+
+  margin: 0;
+}
+
+#container a {
+  text-decoration: none;
+}
+
+hr {background: var(--ion-color-light-shade)}
+
+.bottom-right {
+  position: absolute;
+  bottom: 10%;
+  right: 10%;
+}
+
+.bottom-left {
+  position: absolute;
+  bottom: 10%;
+  left: 10%;
+}

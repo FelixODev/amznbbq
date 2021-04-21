@@ -84,7 +84,7 @@
       <ion-card mode="ios" class="ion-no-margin">
         <ion-list class="ion-margin-top">
           <ion-item *ngFor="let ued of user?.excludeDates; let i = index">
-            <ion-icon slot="start" name="calendar-outline"></ion-icon>
+            <ion-icon slot="start" name="today-outline"></ion-icon>
             <ion-label>Exclude Dates</ion-label>
             <ion-input type="date" multiple="true" [(ngModel)]="user.excludeDates[i]"></ion-input>
             <ion-button slot="end" fill="clear" (click)="removeDate(i)">
@@ -92,7 +92,7 @@
             </ion-button>
           </ion-item>
           <ion-item>
-            <ion-button slot="end" (click)="addDate()">Add Date</ion-button>
+            <ion-button slot="end" expand="block" fill="outline" (click)="addDate()">Add Date</ion-button>
           </ion-item>
         </ion-list>
       </ion-card>
@@ -107,9 +107,12 @@
 </ion-content>
 
 <ion-footer class="no-border">
-  <ion-toolbar>
-    <ion-button (click)="update()" mode="ios" expand="block" class="ion-margin">
+  <ion-toolbar class="ion-padding">
+    <ion-button (click)="update()" mode="ios" expand="block">
       Update
+    </ion-button>
+    <ion-button mode="ios" slot="end" color="light" (click)="showAlert('Under construction.')">
+      <ion-icon slot="icon-only" name="calendar-number-outline"></ion-icon>
     </ion-button>
   </ion-toolbar>
 </ion-footer>
