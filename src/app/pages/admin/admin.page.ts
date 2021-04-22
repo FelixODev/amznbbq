@@ -25,8 +25,8 @@ export class AdminPage implements OnInit {
       if(r){
         const auid = await this.admin.auid();
         const confirm = (auid == r.uid);
-        console.log({auid, uid: r.uid, confirm})
-        if(r){
+        // console.log({auid, uid: r.uid, confirm});
+        if(confirm){
           this.users$ = this.admin.userList$();
         } else {
           this.router.navigateByUrl('/')
