@@ -1,0 +1,17 @@
+<ion-content class="ion-padding">
+
+  <h1>Admin</h1>
+
+  <ion-card mode="ios" class="ion-no-margin">
+    <ion-list>
+      <ion-item *ngFor="let user of (users$|async)">
+        <ion-label>
+          {{user?.displayName}}
+        </ion-label>
+        <ion-button slot="end" fill="clear" (click)="removeUser(user.uid)">
+          <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+</ion-content>

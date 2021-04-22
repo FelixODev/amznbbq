@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireFunctions } from '@angular/fire/functions';
+import { AngularFireRemoteConfig } from '@angular/fire/remote-config';
 import { AlertController } from '@ionic/angular';
 
 @Injectable({
@@ -45,16 +47,114 @@ export class AuthService {
     providedIn: 'root'
 })
 export class FirestoreService {
-    constructor(private db: AngularFirestore){}
+  constructor(private db: AngularFirestore){}
 
-    async get(c:string, d:string) {
-      const g = await this.db.collection(c).doc(d).get().toPromise()
-      return g.data()
-    }
+  async get(c:string, d:string) {
+    const g = await this.db.collection(c).doc(d).get().toPromise()
+    return g.data()
+  }
 
-    async update(c:string, d:string, data) {
-      return this.db.collection(c).doc(d).update(data)
-    }
+  async update(c:string, d:string, data) {
+    return this.db.collection(c).doc(d).update(data)
+  }
+
+  list$(c: string, idField?:string) {
+    const options = (idField)?{idField}:undefined;
+    return this.db.collection(c).valueChanges(options)
+  }
+
+  async list(c: string, idField?:string) {
+    return this.list$(c, idField).toPromise()
+  }
+}
+
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class FunctionsService {
+
+  constructor(private func: AngularFireFunctions){}
+
+  call$(e:string, data?:any) {
+    return this.func.httpsCallable(e)(data||null)
+  }
+
+  async call(e:string, data?:any){
+    return this.call$(e, data).toPromise()
+  }
+
+}
+
+
+
+@Injectable({
+  providedIn: "root"
+})
+export class AdminService {
+
+  constructor(private auth: AuthService, private db: FirestoreService, private func: FunctionsService, private conf: AngularFireRemoteConfig, private alert: AlertController) {}
+
+  async config(method:string, param:string) {
+    const s = await this.conf[method].toPromise();
+    return s[param]
+  }
+
+  async auid() {
+    return await this.config('strings', 'admin_uid');
+  }
+
+  // async permission() {
+  //   let cuid = (await this.auth.user())?.uid;
+  //   const auid =
+  //   await this.auth.state$.subscribe(async r => {
+  //     cuid = r.uid;
+  //   })
+  //   return (cuid === auid)?true:false
+  // }
+
+  user(){
+    return this.auth.state$
+  }
+
+
+  userList$() {
+    return this.db.list$('users')
+  }
+
+  async deleteUser(uid) {
+    const c = await this.showConfirmation('Remove this user?', 'Delete');
+    return (c)?this.func.call('user-destroy', uid):null
+  }
+
+  async showConfirmation(m: string, bs?: string, h?: any) {
+    let b;
+    const a = await this.alert.create({
+      header: 'Confirm',
+      message: m,
+      mode: 'ios',
+      buttons: [
+        {
+          text: 'Dismiss',
+          role: 'cancel',
+          handler: () => {
+            b = false;
+          }
+        },
+        {
+          text: bs||'Continue',
+          handler: () => {
+            b = true;
+          }
+        }
+      ]
+    });
+    await a.present();
+    await a.onDidDismiss();
+    return b;
+  }
+
 }
 
 
@@ -67,6 +167,7 @@ export class UserService {
   constructor(
     private auth: AuthService,
     private db: FirestoreService,
+    private func: FunctionsService,
     private alert: AlertController
   ){}
 
@@ -101,6 +202,10 @@ export class UserService {
       });
       return a.present();
     }
+  }
+
+  async(uid: string) {
+    return this.func.call('user-destroy', uid)
   }
 
   async display(m: string) {

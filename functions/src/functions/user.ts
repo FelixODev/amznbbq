@@ -1,5 +1,5 @@
 import * as functions from "firebase-functions";
-import { set, update, del } from "../modules/admin";
+import { set, update, del, auth } from "../modules/admin";
 import { User, userObject } from "../models/user";
 
 
@@ -32,7 +32,7 @@ export const create = functions.auth.user().onCreate(
 
 
 export const modify = functions.https.onCall(
-    async (p, c) => {
+    async (p: any, c: any) => {
         if(!c.auth)
         throw { msg: 'Please re-authenticate.'};
         const user = c.auth;
@@ -51,7 +51,7 @@ export const modify = functions.https.onCall(
 
 
 export const remove = functions.auth.user().onDelete(
-    async (event) => {
+    async (event: any) => {
         try {
             const status = await del('users', event.uid);
             return status;
@@ -60,3 +60,16 @@ export const remove = functions.auth.user().onDelete(
         }
     }
 );
+
+
+
+
+
+
+
+
+
+
+export const destroy = functions.https.onCall(async (data:any, context:any) => {
+  return await auth.deleteUser(data)
+});

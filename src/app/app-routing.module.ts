@@ -15,6 +15,10 @@ const routes: Routes = [
     path: 'dates',
     loadChildren: () => import('./pages/dates/dates.module').then( m => m.DatesPageModule)
   },
+  {
+    path: 'admin',
+    loadChildren: () => import('./pages/admin/admin.module').then( m => m.AdminPageModule)
+  },
 ];
 
 @NgModule({
