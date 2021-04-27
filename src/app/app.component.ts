@@ -8,7 +8,7 @@ import { AuthService } from './services/fire.service';
 })
 export class AppComponent {
   constructor(private auth: AuthService) {
-    this.auth.anonymous();
+    this.auth.anonymous('local');
   }
 
   ionViewDidEnter() {

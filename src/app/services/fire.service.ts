@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as f from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireFunctions } from '@angular/fire/functions';
@@ -22,7 +23,14 @@ export class AuthService {
     private auth: AngularFireAuth, protected alert: AlertController
   ){}
 
-  async anonymous() {
+  async persist(d?:'LOCAL'|'SESSION'|'NONE'){
+    return this.auth.setPersistence(f.default.auth.Auth.Persistence[d||'LOCAL'])
+  }
+
+  async anonymous(d?:string) {
+    if(d){
+      await this.persist();
+    }
     const r = await this.auth.signInAnonymously();
     const a = await this.alert.create({
       header: "Anonymous Sign-In",
