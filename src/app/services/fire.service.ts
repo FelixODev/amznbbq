@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import * as f from 'firebase/app';
+import f from 'firebase/app';
+import 'firebase/auth';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireFunctions } from '@angular/fire/functions';
@@ -24,7 +25,7 @@ export class AuthService {
   ){}
 
   async persist(d?:'LOCAL'|'SESSION'|'NONE'){
-    return this.auth.setPersistence(f.default.auth.Auth.Persistence[d||'LOCAL'])
+    return this.auth.setPersistence(f.auth.Auth.Persistence[d||'LOCAL'])
   }
 
   async anonymous(d?:string) {
@@ -41,6 +42,23 @@ export class AuthService {
     await a.present();
     return r;
   }
+
+  //   loginWithS = async (provider?:string) => {
+  //   await this.persist(); let s:string, u:any;
+  //   if(!provider) provider = 'GoogleAuthProvider';
+  //   if(
+  //     this['platform'].is("mobile") ||
+  //     !!window['cordova']
+  //   ){
+  //     s = 'signInWithRedirect';
+  //   } else {
+  //     s = 'signInWithPopup';
+  //   }
+  //   u = await this.auth[s](
+  //     new f.default.auth[provider]()
+  //   );
+  //   return u;
+  // }
 
   state$ = this.auth.authState;
 

@@ -5,8 +5,26 @@
   <ion-card mode="ios" class="ion-no-margin">
     <ion-list>
       <ion-item *ngFor="let user of (users$|async)">
+        <ion-icon slot="start" name="person"></ion-icon>
         <ion-label>
           {{user?.displayName}}
+          <br>
+          <ion-note class="n">
+            Preferred Days:
+            <span *ngFor="let days og user?.preferedDays">
+              {{days}}
+            </span>
+            <br>
+            Preferred Times:
+            <span *ngFor="let times og user?.preferedTimes">
+              {{times}}
+            </span>
+            <br>
+            Exclude Days:
+            <span *ngFor="let dates og user?.excludeDates">
+              {{dates}}
+            </span>
+          </ion-note>
         </ion-label>
         <ion-button slot="end" fill="clear" (click)="removeUser(user.uid)">
           <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
