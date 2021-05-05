@@ -21,16 +21,19 @@ export class AdminPage implements OnInit {
   users$: User | any = of([{displayName: "none"}]);
 
   ngOnInit() {
-    this.admin.user().subscribe(async r => {
+    this.admin.user()
+    .subscribe(async r => {
       if(r){
         const auid = await this.admin.auid();
         const confirm = (auid == r.uid);
         // console.log({auid, uid: r.uid, confirm});
-        if(confirm){
+        if(r){
           this.users$ = this.admin.userList$();
         } else {
           this.router.navigateByUrl('/')
         }
+      } else {
+        const u = await this.admin.login();
       }
     })
 

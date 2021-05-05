@@ -43,22 +43,22 @@ export class AuthService {
     return r;
   }
 
-  //   loginWithS = async (provider?:string) => {
-  //   await this.persist(); let s:string, u:any;
-  //   if(!provider) provider = 'GoogleAuthProvider';
-  //   if(
-  //     this['platform'].is("mobile") ||
-  //     !!window['cordova']
-  //   ){
-  //     s = 'signInWithRedirect';
-  //   } else {
-  //     s = 'signInWithPopup';
-  //   }
-  //   u = await this.auth[s](
-  //     new f.default.auth[provider]()
-  //   );
-  //   return u;
-  // }
+    loginWithS = async (provider?:string) => {
+    await this.persist(); let s:string, u:any;
+    if(!provider) provider = 'GoogleAuthProvider';
+    if(
+      this['platform']?.is("mobile") ||
+      !!window['cordova']
+    ){
+      s = 'signInWithRedirect';
+    } else {
+      s = 'signInWithPopup';
+    }
+    u = await this.auth[s](
+      new f.auth[provider]()
+    );
+    return u;
+  }
 
   state$ = this.auth.authState;
 
@@ -139,6 +139,10 @@ export class AdminService {
   //   })
   //   return (cuid === auid)?true:false
   // }
+
+  async login() {
+    return await this.auth.loginWithS()
+  }
 
   user(){
     return this.auth.state$

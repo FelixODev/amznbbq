@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import { AuthService } from './services/fire.service';
 import {map} from 'rxjs/operators';
 
 @Component({
@@ -9,8 +8,9 @@ import {map} from 'rxjs/operators';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor(private auth: AuthService, private route: ActivatedRoute) {
-    this.auth.anonymous('local');
+  constructor(
+    private route: ActivatedRoute
+  ) {
     this.init();
   }
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserService } from 'src/app/services/fire.service';
+import { UserService, AuthService } from 'src/app/services/fire.service';
 import { User } from 'functions/src/models/user';
 import { AlertController } from '@ionic/angular';
 
@@ -11,9 +11,11 @@ import { AlertController } from '@ionic/angular';
 export class HomePage  {
 
   constructor(
+    private auth: AuthService,
     private user$: UserService,
     private alert: AlertController
-  ) {}
+  ) {
+  }
 
   user:User | any = {};
   updated: any;
@@ -26,6 +28,8 @@ export class HomePage  {
         };
         this.user = usr;
         this.updated = this.user;
+      } else {
+        this.auth.anonymous('local');
       }
     });
   }
