@@ -2,6 +2,18 @@ import { Component } from '@angular/core';
 import { UserService, AuthService } from 'src/app/services/fire.service';
 import { User } from 'functions/src/models/user';
 import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { DataService } from 'src/app/services/data.service';
+
+const days = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday"
+];
 
 @Component({
   selector: 'app-home',
@@ -13,7 +25,9 @@ export class HomePage  {
   constructor(
     private auth: AuthService,
     private user$: UserService,
-    private alert: AlertController
+    private alert: AlertController,
+    private router: Router,
+    public data: DataService
   ) {
   }
 
@@ -27,7 +41,7 @@ export class HomePage  {
           uid: u.uid
         };
         this.user = usr;
-        this.updated = this.user;
+        this.updated = {...usr};
       } else {
         this.auth.anonymous('local');
       }
@@ -58,12 +72,12 @@ export class HomePage  {
   }
 
   async update() {
-    // if(!this.disable())
+    if(!this.identical())
     await this.user$.update(this.user);
-    this.updated = this.user;
+    this.updated = {...this.user};
   }
 
-  disable(){
+  identical(){
     return (JSON.stringify(this.user) == JSON.stringify(this.updated))?true:false;
   }
 
@@ -109,6 +123,22 @@ export class HomePage  {
     await a.present();
     await a.onDidDismiss();
     return b;
+  }
+
+  listOfPerferedDays() {
+    const perfereds = this.user?.preferedDays||[];
+    let arrayOfIndexs = [];
+    for (let i = 0; i < perfereds.length; i++) {
+      const pd = perfereds[i];
+      const di = days.indexOf(pd);
+      arrayOfIndexs.push(di);
+    }
+    return arrayOfIndexs
+  }
+
+  goToDates() {
+    this.data.preferedDays = this.listOfPerferedDays();
+    this.router.navigate(['/dates']);
   }
 
 }

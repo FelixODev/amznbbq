@@ -13,6 +13,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore'
 import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import { AngularFireRemoteConfigModule } from '@angular/fire/remote-config';
 import { environment } from 'src/environments/environment';
+import { DataService } from './services/data.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,7 +28,10 @@ import { environment } from 'src/environments/environment';
     AngularFireFunctionsModule,
     AngularFireRemoteConfigModule
    ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    DataService
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

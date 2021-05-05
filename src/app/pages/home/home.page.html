@@ -108,10 +108,10 @@
 
 <ion-footer class="no-border">
   <ion-toolbar>
-    <ion-button class="ion-margin" (click)="update()" mode="ios" expand="block">
+    <ion-button class="ion-margin" (click)="update()" mode="ios" expand="block" [disabled]="identical()">
       Update
     </ion-button>
-    <ion-button class="ion-margin-vertical ion-margin-end" mode="ios" slot="end" color="light" (click)="showAlert('Under construction.')">
+    <ion-button class="ion-margin-vertical ion-margin-end" mode="ios" slot="end" color="light" (click)="goToDates()">
       <ion-icon slot="icon-only" name="calendar-number-outline"></ion-icon>
     </ion-button>
   </ion-toolbar>

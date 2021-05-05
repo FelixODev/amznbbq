@@ -21,12 +21,12 @@
       <h1 class="ion-text-start" style="font-size:xx-large;">
         Available
       </h1>
-      <ion-card mode="ios" class="ion-no-margin">
+      <ion-card mode="ios" class="ion-no-margin ion-margin-bottom" *ngFor="let date of dates">
         <ion-list class="ion-margin-top">
           <ion-item>
             <ion-icon slot="start" name="today-outline"></ion-icon>
-            <ion-label>
-              Placeholder for calendar dates
+            <ion-label class="ion-text-wrap">
+              {{date || 'No calendar dates'}}
             </ion-label>
           </ion-item>
         </ion-list>
