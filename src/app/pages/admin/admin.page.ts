@@ -20,6 +20,8 @@ export class AdminPage implements OnInit {
 
   users$: User | any = of([{displayName: "none"}]);
 
+  processing: any = {};
+
   ngOnInit() {
     this.admin.user()
     .subscribe(async r => {
@@ -35,12 +37,16 @@ export class AdminPage implements OnInit {
       } else {
         const u = await this.admin.login();
       }
-    })
+    });
 
   }
 
-  async removeUser(uid) {
-    await this.admin.deleteUser(uid);
+  async removeUser(uid, i) {
+    this.processing[i] = true;
+    const d = await this.admin.deleteUser(uid);
+    setTimeout(() => {
+      this.processing[i] = false;
+    }, 1500);
   }
 
 }

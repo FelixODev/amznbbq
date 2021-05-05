@@ -155,7 +155,8 @@ export class AdminService {
 
   async deleteUser(uid) {
     const c = await this.showConfirmation('Remove this user?', 'Delete');
-    return (c)?this.func.call('user-destroy', uid):null
+    (c)?await this.func.call('user-destroy', uid):null;
+    return c
   }
 
   async showConfirmation(m: string, bs?: string, h?: any) {

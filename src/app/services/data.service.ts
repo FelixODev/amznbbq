@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class DataService {
 
+  user: any;
   preferedDays = [];
 
   constructor() { }

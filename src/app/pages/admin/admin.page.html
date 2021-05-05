@@ -4,7 +4,7 @@
 
   <ion-card mode="ios" class="ion-no-margin">
     <ion-list>
-      <ion-item *ngFor="let user of (users$|async)">
+      <ion-item *ngFor="let user of (users$|async); let i = index;">
         <ion-icon slot="start" name="person-circle-outline"></ion-icon>
         <ion-label>
           {{user?.displayName}}
@@ -26,9 +26,10 @@
             </span>
           </ion-note>
         </ion-label>
-        <ion-button slot="end" fill="clear" (click)="removeUser(user.uid)">
+        <ion-button *ngIf="!processing[i]||processing[i]==false" slot="end" fill="clear" (click)="removeUser(user?.uid, i)">
           <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
         </ion-button>
+        <ion-spinner *ngIf="processing[i] == true" slot="end"></ion-spinner>
       </ion-item>
     </ion-list>
   </ion-card>
