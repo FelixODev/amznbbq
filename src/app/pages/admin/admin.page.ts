@@ -18,7 +18,7 @@ export class AdminPage implements OnInit {
     private router: Router
   ) {}
 
-  users$: User | any = of([{displayName: "none"}]);
+  users$: User | any = of([]);
 
   processing: any = {};
 

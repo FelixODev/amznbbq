@@ -14,6 +14,7 @@ import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import { AngularFireRemoteConfigModule } from '@angular/fire/remote-config';
 import { environment } from 'src/environments/environment';
 import { DataService } from './services/data.service';
+import { UserResolverService } from './resolvers/user-resolver.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,7 +31,8 @@ import { DataService } from './services/data.service';
    ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    DataService
+    DataService,
+    UserResolverService
   ],
   bootstrap: [AppComponent],
 })

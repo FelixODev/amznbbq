@@ -27,7 +27,9 @@
           <ion-item>
             <ion-icon slot="start" name="today-outline"></ion-icon>
             <ion-label class="ion-text-wrap">
-              {{date || 'No calendar dates'}}
+              {{(date | date:'MMMM d, y - EEEE') || 'No calendar dates'}}
+              <br>
+              Available to attend: {{availableUsersForThisDate(date)}}
             </ion-label>
           </ion-item>
         </ion-list>

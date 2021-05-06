@@ -1,5 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from 'src/app/services/data.service';
+import { User } from 'functions/src/models/user';
+import { ActivatedRoute } from '@angular/router';
+import { FirestoreService } from 'src/app/services/fire.service';
+
+const days = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday"
+];
 
 @Component({
   selector: 'app-dates',
@@ -9,27 +21,81 @@ import { DataService } from 'src/app/services/data.service';
 export class DatesPage implements OnInit {
 
   constructor(
-    public data: DataService
+    private route: ActivatedRoute,
+    private db: FirestoreService
   ) { }
 
+  user:User | any = {};
   dates:any[] = [];
+  users: any[];
 
-  ngOnInit() {
-    this.dates = this.getAvailableDaysInMonthUTC(this.data.preferedDays);
+  async ngOnInit() {
+    this.user = await this.route.snapshot.data.user;
+
+    const preferedDays = this.listOfPerferedDays(this.user);
+    this.dates = this.getAvailableDaysInMonth(preferedDays);
+
+    this.db.list$('users').subscribe(u => {
+      this.users = u;
+    });
   }
 
-  getAvailableDaysInMonthUTC(afm_dates?:any) {
-    const afms = afm_dates||[2,3,4];
+  getAvailableDaysInMonth(afms?:any) {
+    afms = (!afms||afms.length == 0)?[1,2,3,4,5]:afms;
     const date = new Date();
-    const month = date.getUTCMonth();
+    const month = date.getMonth();
     let days = [];
-    while (date.getUTCMonth() === month) {
+    while (date.getMonth() === month) {
       if(afms.includes(date.getDay())) {
-        days.push(new Date(date));
+        const excludes = this.user?.excludeDates||[];
+
+        const dateStr = this.properISO(date);
+
+        if(excludes.includes(dateStr)){
+          console.log(excludes, dateStr)
+        } else {
+          days.push(new Date(date));
+        }
       }
-      date.setUTCDate(date.getUTCDate() + 1);
+      date.setDate(date.getDate() + 1);
     }
     return days;
+  }
+
+  listOfPerferedDays(user) {
+    const perfereds = user?.preferedDays||[];
+    let arrayOfIndexs = [];
+    for (let i = 0; i < perfereds.length; i++) {
+      const pd = perfereds[i];
+      const di = days.indexOf(pd);
+      arrayOfIndexs.push(di);
+    }
+    return arrayOfIndexs
+  }
+
+  availableUsersForThisDate(d:any) {
+    const day = d.getDay();
+    let count = 0;
+    for (let i = 0; i < this.users.length; i++) {
+      const u = this.users[i];
+      const days = this.listOfPerferedDays(u)
+      if(days.includes(day)) {
+        const excludes = u.excludeDates||[];
+        const dateStr = this.properISO(d);
+        if(excludes.includes(dateStr)){
+        } else {
+          count++;
+        }
+      }
+    }
+    return count;
+  }
+
+  properISO(date:Date) {
+    // get proper iso date
+    let d = new Date(date);
+    d.setDate(d.getDate() - 1);
+    return d.toISOString().slice(0, 10);
   }
 
 }

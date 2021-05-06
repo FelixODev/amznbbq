@@ -248,4 +248,8 @@ export class UserService {
     });
     return a.present();
   }
+
+  async anonymous(d?:string){
+    return this.auth.anonymous(d);
+  }
 }

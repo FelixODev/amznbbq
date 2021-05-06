@@ -1,51 +1,31 @@
-import { Component } from '@angular/core';
-import { UserService, AuthService } from 'src/app/services/fire.service';
+import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/services/fire.service';
 import { User } from 'functions/src/models/user';
 import { AlertController } from '@ionic/angular';
-import { Router } from '@angular/router';
-import { DataService } from 'src/app/services/data.service';
-
-const days = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday"
-];
+import { ActivatedRoute } from '@angular/router';
+// import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage  {
+export class HomePage implements OnInit {
 
   constructor(
-    private auth: AuthService,
     private user$: UserService,
     private alert: AlertController,
-    private router: Router,
-    public data: DataService
+    private route: ActivatedRoute,
+    // private router: Router,
   ) {
   }
 
   user:User | any = {};
   updated: any;
 
-  ionViewDidEnter() {
-    this.user$.state$.subscribe(async u => {
-      if(u) {
-        let usr = await this.user$.get()||{
-          uid: u.uid
-        };
-        this.user = usr;
-        this.updated = {...usr};
-      } else {
-        this.auth.anonymous('local');
-      }
-    });
+  async ngOnInit() {
+    this.user = await this.route.snapshot.data.user;
+    this.updated = {...this.user};
   }
 
   async removeDate(i) {
@@ -125,20 +105,8 @@ export class HomePage  {
     return b;
   }
 
-  listOfPerferedDays() {
-    const perfereds = this.user?.preferedDays||[];
-    let arrayOfIndexs = [];
-    for (let i = 0; i < perfereds.length; i++) {
-      const pd = perfereds[i];
-      const di = days.indexOf(pd);
-      arrayOfIndexs.push(di);
-    }
-    return arrayOfIndexs
-  }
-
-  goToDates() {
-    this.data.preferedDays = this.listOfPerferedDays();
-    this.router.navigate(['/dates']);
-  }
+  // goToDates() {
+  //   this.router.navigate(['/dates']);
+  // }
 
 }
