@@ -24,7 +24,8 @@ export class UserResolverService implements Resolve <Observable<any>> {
           };
         } else {
           const u:any = await this.user$.anonymous();
-          return {uid: u?.uid}
+          console.log(u)
+          return {uid: u?.user?.uid}
         }
       })
     )
