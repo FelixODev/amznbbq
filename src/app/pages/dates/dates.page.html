@@ -29,10 +29,12 @@
             <ion-label class="ion-text-wrap">
               {{(date | date:'MMMM d, y - EEEE') || 'No calendar dates'}}
               <br>
-              Available to attend:
-              <ion-text color="primary">
-                {{availableUsersForThisDate(date)}}
-              </ion-text>
+              <ion-note>
+                Available to attend:
+                <span>
+                  {{availableUsersForThisDate(date)}}
+                </span>
+              </ion-note>
             </ion-label>
           </ion-item>
         </ion-list>

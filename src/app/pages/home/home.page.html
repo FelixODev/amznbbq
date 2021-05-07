@@ -26,7 +26,9 @@
             <ion-icon slot="start" name="id-card-outline"></ion-icon>
             <ion-label>
               <ion-note>
-              {{user?.uid || 'Id not yet available...'}}
+                <span>
+                  {{user?.uid || 'Id not yet available...'}}
+                </span>
               </ion-note>
             </ion-label>
           </ion-item>
@@ -83,6 +85,7 @@
       <h1 class="ion-text-start" style="font-size:xx-large;">Exclusions</h1>
       <ion-card mode="ios" class="ion-no-margin">
         <ion-list class="ion-margin-top">
+
           <ion-item *ngFor="let ued of user?.excludeDates; let i = index">
             <ion-icon slot="start" name="today-outline"></ion-icon>
             <ion-label>Exclude Dates</ion-label>
@@ -91,9 +94,11 @@
               <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
             </ion-button>
           </ion-item>
+
           <ion-item>
             <ion-button slot="end" expand="block" fill="outline" (click)="addDate()">Add Date</ion-button>
           </ion-item>
+
         </ion-list>
       </ion-card>
     </div>

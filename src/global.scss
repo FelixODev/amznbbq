@@ -31,6 +31,15 @@ ion-card {
   ion-item:last-child {
     --border-color: transparent;
   }
+  ion-label {
+    span, p {
+      color: var(--ion-color-primary);
+    }
+  }
+  ion-select, ion-input[type=date] {
+    color: var(--ion-color-primary);
+  }
+  border-left: 3px solid var(--ion-color-primary);
 }
 
 #container {
@@ -63,7 +72,9 @@ ion-card {
   text-decoration: none;
 }
 
-hr {background: var(--ion-color-light-shade)}
+hr {
+  background: var(--ion-color-light-shade);
+}
 
 .bottom-right {
   position: absolute;

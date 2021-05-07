@@ -2,9 +2,9 @@
 
   <h1>Admin</h1>
 
-  <ion-card mode="ios" class="ion-no-margin">
+  <ion-card mode="ios" class="ion-no-margin ion-margin-bottom" *ngFor="let user of (users$|async); let i = index;">
     <ion-list>
-      <ion-item *ngFor="let user of (users$|async); let i = index;">
+      <ion-item>
         <ion-icon slot="start" name="person-circle-outline"></ion-icon>
         <ion-label>
           {{user?.displayName}}
