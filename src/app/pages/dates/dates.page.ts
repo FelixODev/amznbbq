@@ -115,7 +115,7 @@ export class DatesPage implements OnInit {
       cssClass: 'pop',
       animated: true,
       // mode: 'ios',
-      // event: e,
+      event: e,
     });
     await ctrl.present();
   }

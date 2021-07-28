@@ -1,6 +1,6 @@
 <ion-header mode="ios">
   <ion-toolbar mode="md" color="none">
-    <ion-title>
+    <ion-title style="font-size: small;">
       {{(date | date:'MMMM d, y - EEEE') || 'No calendar dates'}}
     </ion-title>
     <ion-buttons slot="end">
@@ -11,11 +11,11 @@
   </ion-toolbar>
 </ion-header>
 
-<div>
+<ion-content>
   <ion-card *ngFor="let user of users">
     <ion-item mode="ios" color="light" lines="none">
-      <ion-icon name="person-circle-outline" slot="start"></ion-icon>
-      <ion-label>
+      <ion-icon name="person-circle-outline" slot="start" size="small"></ion-icon>
+      <ion-label style="font-size: x-small;">
         <ion-note>
   
           {{user?.displayName}}
@@ -23,4 +23,4 @@
       </ion-label>
     </ion-item>
   </ion-card>
-</div>
+</ion-content>
