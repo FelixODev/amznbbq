@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FirestoreService } from 'src/app/services/fire.service';
 import { PopoverController } from '@ionic/angular';
 import { DatePopoverComponent } from 'src/app/components/date-popover/date-popover.component';
+import { Share } from '@capacitor/share';
 
 const days = [
   "Sunday",
@@ -118,6 +119,15 @@ export class DatesPage implements OnInit {
       event: e,
     });
     await ctrl.present();
+  }
+
+  async share() {
+    await Share.share({
+      title: 'Meetup Proposal',
+      text: 'Confirm to bump up this proposed meetup date',
+      url: 'https://amznbbq.web.app/dates',
+      dialogTitle: 'Share this meetup date',
+    });
   }
 
 }

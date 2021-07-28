@@ -29,8 +29,9 @@
         *ngIf="availableUsersForThisDate(date) as users" 
         [date]="date" 
         [users]="users"
-        (click)="view($event, date, users)"
+        (click)="share()"
         ></date-card>
+        <!-- (click)="view($event, date, users)" -->
       </div>
     </div>
 
