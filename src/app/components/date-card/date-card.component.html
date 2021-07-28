@@ -1,0 +1,25 @@
+<ion-card mode="ios" class="ion-no-margin ion-margin-bottom">
+<ion-list class="ion-margin-top">
+  <ion-item>
+    <ion-icon slot="start" name="today-outline"></ion-icon>
+    <ion-label class="ion-text-wrap">
+      <!-- <p style="font-weight: 700;"> -->
+        {{(date | date:'MMMM d, y - EEEE') || 'No calendar dates'}}
+      <!-- </p> -->
+      <br>
+      <ion-note>
+        Most prefer 
+        <span>
+          {{prefTime}}
+        </span>
+      </ion-note>
+    </ion-label>
+    <ion-badge color="light">
+      <ion-text color="primary">
+        {{users?.length}}
+      </ion-text>
+      <ion-icon color="primary" name="people"></ion-icon>
+    </ion-badge>
+  </ion-item>
+</ion-list>
+</ion-card>

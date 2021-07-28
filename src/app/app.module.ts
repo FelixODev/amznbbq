@@ -15,10 +15,13 @@ import { AngularFireRemoteConfigModule } from '@angular/fire/remote-config';
 import { environment } from 'src/environments/environment';
 import { DataService } from './services/data.service';
 import { UserResolverService } from './resolvers/user-resolver.service';
+import { DatePopoverComponent } from './components/date-popover/date-popover.component';
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
+  declarations: [AppComponent, DatePopoverComponent],
+  entryComponents: [
+    DatePopoverComponent
+  ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),

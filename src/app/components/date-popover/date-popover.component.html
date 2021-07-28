@@ -1,0 +1,26 @@
+<ion-header mode="ios">
+  <ion-toolbar mode="md">
+    <ion-title>
+      {{(date | date:'MMMM d, y - EEEE') || 'No calendar dates'}}
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="ctrl.dismiss();">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<div>
+  <ion-card *ngFor="let user of users">
+    <ion-item mode="ios" color="light" lines="none">
+      <ion-icon name="person-circle-outline" slot="start"></ion-icon>
+      <ion-label>
+        <ion-note>
+  
+          {{user?.displayName}}
+        </ion-note>
+      </ion-label>
+    </ion-item>
+  </ion-card>
+</div>

@@ -22,23 +22,16 @@
       <h1 class="ion-text-start" style="font-size:xx-large;">
         Available
       </h1>
-      <ion-card mode="ios" class="ion-no-margin ion-margin-bottom" *ngFor="let date of dates">
-        <ion-list class="ion-margin-top">
-          <ion-item>
-            <ion-icon slot="start" name="today-outline"></ion-icon>
-            <ion-label class="ion-text-wrap">
-              {{(date | date:'MMMM d, y - EEEE') || 'No calendar dates'}}
-              <br>
-              <ion-note>
-                Available to attend:
-                <span>
-                  {{availableUsersForThisDate(date)}}
-                </span>
-              </ion-note>
-            </ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-card>
+      <div
+      *ngFor="let date of dates" 
+      >
+        <date-card
+        *ngIf="availableUsersForThisDate(date) as users" 
+        [date]="date" 
+        [users]="users"
+        (click)="view($event, date, users)"
+        ></date-card>
+      </div>
     </div>
 
 

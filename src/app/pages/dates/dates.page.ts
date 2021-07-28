@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'functions/src/models/user';
 import { ActivatedRoute } from '@angular/router';
 import { FirestoreService } from 'src/app/services/fire.service';
+import { PopoverController } from '@ionic/angular';
+import { DatePopoverComponent } from 'src/app/components/date-popover/date-popover.component';
 
 const days = [
   "Sunday",
@@ -22,7 +24,8 @@ export class DatesPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private db: FirestoreService
+    private db: FirestoreService,
+    private popover: PopoverController
   ) { }
 
   user:User | any = {};
@@ -41,7 +44,7 @@ export class DatesPage implements OnInit {
   }
 
   getAvailableDaysInMonth(afms?:any) {
-    afms = (!afms||afms.length == 0)?[1,2,3,4,5]:afms;
+    afms = (!afms||afms?.length == 0)?[1,2,3,4,5]:afms;
     const date = new Date();
     const month = date.getMonth();
     let days = [];
@@ -65,7 +68,7 @@ export class DatesPage implements OnInit {
   listOfPerferedDays(user) {
     const perfereds = user?.preferedDays||[];
     let arrayOfIndexs = [];
-    for (let i = 0; i < perfereds.length; i++) {
+    for (let i = 0; i < perfereds?.length; i++) {
       const pd = perfereds[i];
       const di = days.indexOf(pd);
       arrayOfIndexs.push(di);
@@ -75,8 +78,9 @@ export class DatesPage implements OnInit {
 
   availableUsersForThisDate(d:any) {
     const day = d.getDay();
+    const usrs = [];
     let count = 0;
-    for (let i = 0; i < this.users.length; i++) {
+    for (let i = 0; i < this.users?.length; i++) {
       const u = this.users[i];
       const days = this.listOfPerferedDays(u)
       if(days.includes(day)) {
@@ -85,10 +89,12 @@ export class DatesPage implements OnInit {
         if(excludes.includes(dateStr)){
         } else {
           count++;
+          usrs.push(u);
         }
       }
     }
-    return count;
+    // return count;
+    return usrs;
   }
 
   properISO(date:Date) {
@@ -96,6 +102,22 @@ export class DatesPage implements OnInit {
     let d = new Date(date);
     d.setDate(d.getDate() - 1);
     return d.toISOString().slice(0, 10);
+  }
+
+  async view(e, date, users) {
+    const ctrl = await this.popover.create({
+      component: DatePopoverComponent,
+      componentProps:{
+        date: date,
+        users: users,
+        ctrl: this.popover
+      },
+      cssClass: 'pop',
+      animated: true,
+      // mode: 'ios',
+      // event: e,
+    });
+    await ctrl.present();
   }
 
 }
