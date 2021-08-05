@@ -7,7 +7,7 @@
     </ion-fab-button>
   </ion-fab>
 
-  <div id="container">
+  <section id="container">
     <br>
     <br>
     <h1>
@@ -18,7 +18,7 @@
 
 
 
-    <div class="ion-padding-bottom">
+    <article class="ion-padding-bottom">
       <h1 class="ion-text-start" style="font-size:xx-large;">
         Available
       </h1>
@@ -29,12 +29,23 @@
         *ngIf="availableUsersForThisDate(date) as users" 
         [date]="date" 
         [users]="users"
-        (click)="share()"
+        (click)="prospect(date)"
         ></date-card>
         <!-- (click)="view($event, date, users)" -->
       </div>
-    </div>
+
+      
+      <h1 class="ion-text-start" style="font-size:xx-large;">
+        Prospect Dates
+      </h1>
+      <div *ngFor="let pr of pros">
+        <date-card 
+        [date]="pr?.date"
+        (click)="share(pr)"
+        ></date-card>
+      </div>
+    </article>
 
 
-  </div>
+  </section>
 </ion-content>

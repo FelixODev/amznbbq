@@ -1,0 +1,50 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <ion-fab vertical="top" horizontal="start" slot="fixed">
+    <ion-fab-button href="/" size="small" color="light">
+      <ion-icon name="arrow-back"></ion-icon>
+      <ion-back-button icon="add"></ion-back-button>
+    </ion-fab-button>
+  </ion-fab>
+
+  <section>
+    <br>
+    <br>
+    <h1>
+      <strong>
+        Let's Hang Out!
+      </strong>
+    </h1>
+    <h2>The prospective date is {{pr?.date|date}}</h2>
+    <h4>
+      Host: {{pr?.prospector}}
+    </h4>
+
+    <p>
+      Confirm to express interest in this perspective date. Are you interested?
+    </p>
+    
+  </section>
+  
+  <!-- class="ion-margin"  -->
+  <ion-button
+  *ngIf="!added"
+  (click)="update()" 
+  mode="ios" 
+  >
+  <!-- expand="block" -->
+    Confirm
+  </ion-button>
+  
+  <!-- class="ion-margin"  -->
+  <ion-button
+  *ngIf="added"
+  (click)="update()" 
+  mode="ios"
+  color="medium" 
+  >
+  <!-- expand="block" -->
+    Unconfirm
+  </ion-button>
+
+</ion-content>

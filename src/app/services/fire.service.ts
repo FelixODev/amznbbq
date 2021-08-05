@@ -6,6 +6,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFireRemoteConfig } from '@angular/fire/remote-config';
 import { AlertController } from '@ionic/angular';
+import { first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -75,9 +76,29 @@ export class AuthService {
 export class FirestoreService {
   constructor(private db: AngularFirestore){}
 
+  async add(c:string, data) {
+    const a = await this.db.collection(c).add(data)
+    return a
+  }
+
   async get(c:string, d:string) {
     const g = await this.db.collection(c).doc(d).get().toPromise()
     return g.data()
+  }
+
+  where$(p: any) {
+    const id = p.id||p.idField;
+    const options = (id)?{idField:id}:undefined;
+    return this.db.collection(p?.c||p?.collection||'users', ref =>
+      ref.where(p?.w||p?.where||'', p?.o||p?.operator||'==', p?.q||p?.query||'')
+    ).valueChanges(options)
+  }
+
+  async where(p: any) {
+    const l = await this.where$(p).pipe(
+      first()
+    ).toPromise()
+    return l||[]
   }
 
   async update(c:string, d:string, data) {
@@ -90,7 +111,10 @@ export class FirestoreService {
   }
 
   async list(c: string, idField?:string) {
-    return this.list$(c, idField).toPromise()
+    const l = await this.list$(c, idField).pipe(
+      first()
+    ).toPromise()
+    return l||[]
   }
 }
 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/fire.service';
 import { User } from 'functions/src/models/user';
-import { AlertController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
+import { AlertService } from 'src/app/services/alert.service';
 // import { Router } from '@angular/router';
 
 @Component({
@@ -14,8 +14,8 @@ export class HomePage implements OnInit {
 
   constructor(
     private user$: UserService,
-    private alert: AlertController,
     private route: ActivatedRoute,
+    private alert: AlertService
     // private router: Router,
   ) {
   }
@@ -29,7 +29,7 @@ export class HomePage implements OnInit {
   }
 
   async removeDate(i) {
-    const b = await this.showConfirmation('Would you like to remove this date exclusion?', 'Delete');
+    const b = await this.alert.confirm('Would you like to remove this date exclusion?', 'Delete');
     if(b) {
       this.user?.excludeDates.splice(i,1);
     }
@@ -38,10 +38,10 @@ export class HomePage implements OnInit {
   async addDate() {
     if(Array.isArray(this.user?.excludeDates)){
       if(this.user.excludeDates.includes(null)){
-        await this.showAlert("Please enter a date first.");
+        await this.alert.confirm("Please enter a date first.");
       } else if(this.duplicates()) {
 
-        await this.showAlert("You listed the same date twice. Please change or remove the duplicate.");
+        await this.alert.confirm("You listed the same date twice. Please change or remove the duplicate.");
       } else {
         this.user.excludeDates.push(null);
       }
@@ -64,45 +64,6 @@ export class HomePage implements OnInit {
   duplicates() {
     const arr = this.user?.excludeDates;
     return (arr.length !== new Set(arr).size)?true:false
-  }
-
-  async showAlert(m: string, h?: string) {
-    const a = await this.alert.create({
-      header: h||'Alert',
-      message: m,
-      mode: 'ios',
-      buttons: [
-        'Dismiss'
-      ]
-    });
-    return await a.present()
-  }
-
-  async showConfirmation(m: string, bs?: string, h?: any) {
-    let b;
-    const a = await this.alert.create({
-      header: 'Confirm',
-      message: m,
-      mode: 'ios',
-      buttons: [
-        {
-          text: 'Dismiss',
-          role: 'cancel',
-          handler: () => {
-            b = false;
-          }
-        },
-        {
-          text: bs||'Continue',
-          handler: () => {
-            b = true;
-          }
-        }
-      ]
-    });
-    await a.present();
-    await a.onDidDismiss();
-    return b;
   }
 
   // goToDates() {

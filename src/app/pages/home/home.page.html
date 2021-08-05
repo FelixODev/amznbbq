@@ -66,14 +66,18 @@
           </ion-item>
           <ion-item>
             <ion-icon slot="start" name="storefront-outline"></ion-icon>
-            <ion-label>K-BBQ Spots</ion-label>
-            <ion-select mode="ios" multiple="true" placeholder="Choose" okText="Okay" cancelText="Dismiss" [(ngModel)]="user.preferedPlaces">
+            <ion-label>Destination(s)</ion-label>
+            <!-- <ion-select mode="ios" multiple="true" placeholder="Choose" okText="Okay" cancelText="Dismiss" [(ngModel)]="user.preferedPlaces">
               <ion-select-option value="1640 Camino Del Rio N #fs12">356 Korean BBQ</ion-select-option>
               <ion-select-option value="4428 Convoy St">Manna Korean BBQ</ion-select-option>
               <ion-select-option value="7655 Clairemont Mesa Blvd Ste 501">Taeguki Korean BBQ House</ion-select-option>
               <ion-select-option value="5580 Clairemont Mesa Blvd">Buga Korean Barbecue Restaurant</ion-select-option>
               <ion-select-option value="7905 Engineer Rd">Dae Jang Keum</ion-select-option>
-            </ion-select>
+            </ion-select> -->
+            <ion-input 
+            [(ngModel)]="user.preferedPlaces"
+            placeholder="Optional"
+            ></ion-input>
           </ion-item>
         </ion-list>
       </ion-card>

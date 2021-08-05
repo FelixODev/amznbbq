@@ -29,6 +29,13 @@ const routes: Routes = [
       user: UserResolverService
     }
   },
+  {
+    path: 'prospect/:date_id',
+    loadChildren: () => import('./pages/prospect/prospect.module').then( m => m.ProspectPageModule),
+    resolve: {
+      user: UserResolverService
+    }
+  },
 ];
 
 @NgModule({

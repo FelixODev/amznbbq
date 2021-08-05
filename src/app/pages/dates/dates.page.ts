@@ -5,6 +5,7 @@ import { FirestoreService } from 'src/app/services/fire.service';
 import { PopoverController } from '@ionic/angular';
 import { DatePopoverComponent } from 'src/app/components/date-popover/date-popover.component';
 import { Share } from '@capacitor/share';
+import { AlertService } from 'src/app/services/alert.service';
 
 const days = [
   "Sunday",
@@ -26,12 +27,14 @@ export class DatesPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private db: FirestoreService,
-    private popover: PopoverController
+    private popover: PopoverController,
+    private alert: AlertService
   ) { }
 
-  user:User | any = {};
-  dates:any[] = [];
-  users: any[];
+  user: User | any = {};
+  dates: any[] = [];
+  users: any[] = [];
+  pros: any[] = [];
 
   async ngOnInit() {
     this.user = await this.route.snapshot.data.user;
@@ -39,9 +42,16 @@ export class DatesPage implements OnInit {
     const preferedDays = this.listOfPerferedDays(this.user);
     this.dates = this.getAvailableDaysInMonth(preferedDays);
 
-    this.db.list$('users').subscribe(u => {
-      this.users = u;
-    });
+    this.users = await this.db.list('users');
+
+    this.pros = await this.db.where({
+      c: 'prospects',
+      w: 'ids',
+      o: 'array-contains', 
+      q: this.user.uid,
+      id: 'id'
+    })
+
   }
 
   getAvailableDaysInMonth(afms?:any) {
@@ -121,13 +131,25 @@ export class DatesPage implements OnInit {
     await ctrl.present();
   }
 
-  async share() {
+  async share(pd) {
     await Share.share({
       title: 'Meetup Proposal',
       text: 'Confirm to bump up this proposed meetup date',
-      url: 'https://amznbbq.web.app/dates',
+      url: 'https://amznbbq.web.app/prospect/'+pd?.id,
       dialogTitle: 'Share this meetup date',
     });
   }
+
+  async prospect(date) {
+    const u = this.user;
+    const c = await this.alert.confirm('Would you like to prospect and share interest for this date?');
+    c?await this.db.add('prospects', {
+      prospector: (this.users.find(e => e.uid == u.uid))?.displayName||null,
+      date: date.toString(),
+      ids:[u.uid],
+    }):null;
+  }
+
+
 
 }
