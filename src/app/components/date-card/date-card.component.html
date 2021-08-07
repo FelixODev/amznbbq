@@ -14,12 +14,19 @@
         </span>
       </ion-note>
     </ion-label>
-    <ion-badge color="light">
+    <ion-badge color="light" *ngIf="users">
       <ion-text color="primary">
         {{users?.length}}
       </ion-text>
       <ion-icon color="primary" name="people"></ion-icon>
     </ion-badge>
+    <ion-buttons *ngIf="buttons">
+      <ion-button *ngFor="let b of buttons"
+      (click)="b.func(id)"
+      >
+        <ion-icon *ngIf="b.icon as icon" name="{{icon}}"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-item>
 </ion-list>
 </ion-card>

@@ -6,6 +6,17 @@
       <ion-back-button icon="add"></ion-back-button>
     </ion-fab-button>
   </ion-fab>
+  <ion-fab vertical="top" horizontal="end" slot="fixed" class="ion-padding">
+    <ion-segment mode="ios" (ionChange)="segmentChanged($event)" value="available">
+      <ion-segment-button value="available">
+        <ion-label>Available</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="prospects">
+        <ion-label>Prospects</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    
+  </ion-fab>
 
   <section id="container">
     <br>
@@ -18,13 +29,14 @@
 
 
 
-    <article class="ion-padding-bottom">
-      <h1 class="ion-text-start" style="font-size:xx-large;">
+    <article
+    class="ion-padding-bottom" 
+    *ngIf="display === 'available'"
+    >
+    <h1 class="ion-text-start" style="font-size:xx-large;">
         Available
       </h1>
-      <div
-      *ngFor="let date of dates" 
-      >
+      <div *ngFor="let date of dates" >
         <date-card
         *ngIf="availableUsersForThisDate(date) as users" 
         [date]="date" 
@@ -33,15 +45,21 @@
         ></date-card>
         <!-- (click)="view($event, date, users)" -->
       </div>
+    </article>
 
-      
+
+
+    <article class="ion-padding-bottom"
+    *ngIf="display === 'prospects'"
+    >
       <h1 class="ion-text-start" style="font-size:xx-large;">
         Prospect Dates
       </h1>
       <div *ngFor="let pr of pros">
         <date-card 
         [date]="pr?.date"
-        (click)="share(pr)"
+        [id]="pr?.id"
+        [buttons]="[{func:share, icon:'share'}]"
         ></date-card>
       </div>
     </article>

@@ -35,6 +35,7 @@ export class DatesPage implements OnInit {
   dates: any[] = [];
   users: any[] = [];
   pros: any[] = [];
+  display: 'available'|'prospects' = 'available';
 
   async ngOnInit() {
     this.user = await this.route.snapshot.data.user;
@@ -46,7 +47,7 @@ export class DatesPage implements OnInit {
 
     this.pros = await this.db.where({
       c: 'prospects',
-      w: 'ids',
+      w: 'uids',
       o: 'array-contains', 
       q: this.user.uid,
       id: 'id'
@@ -131,11 +132,11 @@ export class DatesPage implements OnInit {
     await ctrl.present();
   }
 
-  async share(pd) {
+  share = async (id) => {
     await Share.share({
       title: 'Meetup Proposal',
       text: 'Confirm to bump up this proposed meetup date',
-      url: 'https://amznbbq.web.app/prospect/'+pd?.id,
+      url: 'https://amznbbq.web.app/prospect/'+id,
       dialogTitle: 'Share this meetup date',
     });
   }
@@ -143,13 +144,20 @@ export class DatesPage implements OnInit {
   async prospect(date) {
     const u = this.user;
     const c = await this.alert.confirm('Would you like to prospect and share interest for this date?');
-    c?await this.db.add('prospects', {
-      prospector: (this.users.find(e => e.uid == u.uid))?.displayName||null,
-      date: date.toString(),
-      ids:[u.uid],
-    }):null;
+    if(c){
+      await this.db.add('prospects', {
+        prospector: (this.users.find(e => e.uid == u.uid))?.displayName||null,
+        date: date.toString(),
+        uids: [u.uid],
+        uid: u.uid
+      });
+      window.location.reload();
+    };
   }
 
-
+  segmentChanged(ev: any) {
+    const v = ev?.detail?.value;
+    this.display = v;
+  }
 
 }
