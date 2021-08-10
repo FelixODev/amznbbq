@@ -146,7 +146,7 @@ export class DatesPage implements OnInit {
     share: async (id) => {
       await Share.share({
         title: 'Meetup Proposal',
-        text: 'View and confirm meetup date.',
+        text: 'View and confirm potential meetup date.',
         url: 'https://amznbbq.web.app/prospect/'+id,
         dialogTitle: 'Share this meetup date',
       });
@@ -154,7 +154,7 @@ export class DatesPage implements OnInit {
 
     add: async (date) => {
       const u = this.user;
-      const c = await this.alert.confirm('Would you like to share this date?');
+      const c = await this.alert.confirm('Would you like to add this to potential dates?');
       if(c){
         await this.db.add('prospects', {
           prospector: (this.users.find(e => e.uid == u.uid))?.displayName||null,
