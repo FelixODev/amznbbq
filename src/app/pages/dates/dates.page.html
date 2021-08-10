@@ -7,7 +7,7 @@
     </ion-fab-button>
   </ion-fab>
   <ion-fab vertical="top" horizontal="end" slot="fixed" class="ion-padding">
-    <ion-segment mode="ios" (ionChange)="segmentChanged($event)" value="available">
+    <ion-segment mode="ios" [(ngModel)]="display" (ionChange)="segmentChanged($event)">
       <ion-segment-button value="available">
         <ion-label>Available</ion-label>
       </ion-segment-button>
@@ -63,7 +63,7 @@
           {func:prospect.share, icon:'share'},
           {func:prospect.delete, icon:'trash'}
         ]"
-        [link]="'prospect/'+pr?.id"
+        (click)="prospect.view(pr?.id)"
         ></date-card>
       </div>
     </article>

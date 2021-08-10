@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'functions/src/models/user';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FirestoreService } from 'src/app/services/fire.service';
 import { PopoverController } from '@ionic/angular';
 import { DatePopoverComponent } from 'src/app/components/date-popover/date-popover.component';
@@ -25,10 +25,11 @@ const days = [
 export class DatesPage implements OnInit {
 
   constructor(
-    private route: ActivatedRoute,
+    private ar: ActivatedRoute,
     private db: FirestoreService,
     private popover: PopoverController,
-    private alert: AlertService
+    private alert: AlertService,
+    private route: Router
   ) { }
 
   user: User | any = {};
@@ -38,7 +39,7 @@ export class DatesPage implements OnInit {
   display: 'available'|'prospects' = 'available';
 
   async ngOnInit() {
-    this.user = await this.route.snapshot.data.user;
+    this.user = await this.ar.snapshot.data.user;
 
     const preferedDays = this.listOfPerferedDays(this.user);
     this.dates = this.getAvailableDaysInMonth(preferedDays);
@@ -138,7 +139,8 @@ export class DatesPage implements OnInit {
   prospect = {
 
     view: (id) => {
-      return '/prospects'+id
+      const purl = '/prospects'+id;
+      this.route.navigateByUrl(purl);
     },
 
     share: async (id) => {
@@ -160,15 +162,16 @@ export class DatesPage implements OnInit {
           uids: [u.uid],
           uid: u.uid
         });
+        this.display = 'prospects';
+        await this.reload();
       };
-      this.reload();
     },
   
     delete: async (id) => {
-      const c = await this.alert.confirm('Would you like to delete this date?');
+      const c = await this.alert.confirm('Would you like to delete this date?', 'Delete');
       if(c) {
         await this.db.delete('prospects', id);
-        this.reload();
+        await this.reload();
       }
     }
 
@@ -180,8 +183,8 @@ export class DatesPage implements OnInit {
     this.display = v;
   }
 
-  reload() {
-    window.location.reload();
+  async reload() {
+    await this.init();
   }
 
 }
