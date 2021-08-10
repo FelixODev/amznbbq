@@ -116,6 +116,11 @@ export class FirestoreService {
     ).toPromise()
     return l||[]
   }
+
+  async delete(c:string, id: string) {
+    return await this.db.collection(c).doc(id).delete();
+  }
+
 }
 
 

@@ -59,7 +59,11 @@
         <date-card 
         [date]="pr?.date"
         [id]="pr?.id"
-        [buttons]="[{func:share, icon:'share'}]"
+        [buttons]="[
+          {func:pd.share, icon:'share'},
+          {func:pd.delete, icon:'trash'}
+        ]"
+        [link]="'prospect/'+pr?.id"
         ></date-card>
       </div>
     </article>

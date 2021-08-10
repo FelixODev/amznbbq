@@ -132,18 +132,32 @@ export class DatesPage implements OnInit {
     await ctrl.present();
   }
 
-  share = async (id) => {
-    await Share.share({
-      title: 'Meetup Proposal',
-      text: 'Confirm to bump up this proposed meetup date',
-      url: 'https://amznbbq.web.app/prospect/'+id,
-      dialogTitle: 'Share this meetup date',
-    });
+  pd = {
+
+    view: (id) => {
+      return '/prospects'+id
+    },
+
+    share: async (id) => {
+      await Share.share({
+        title: 'Meetup Proposal',
+        text: 'View and confirm meetup date.',
+        url: 'https://amznbbq.web.app/prospect/'+id,
+        dialogTitle: 'Share this meetup date',
+      });
+    },
+  
+    delete: async (id) => {
+      const c = await this.alert.confirm('Would you like to delete this date?');
+      if(c) {
+        await this.db.delete('prospects', id);
+      }
+    }
   }
 
   async prospect(date) {
     const u = this.user;
-    const c = await this.alert.confirm('Would you like to prospect and share interest for this date?');
+    const c = await this.alert.confirm('Would you like to share this date?');
     if(c){
       await this.db.add('prospects', {
         prospector: (this.users.find(e => e.uid == u.uid))?.displayName||null,

@@ -10,6 +10,7 @@ export class DateCardComponent implements OnInit {
   @Input('id') id: any;
   @Input('date') date: any;
   @Input('users') users: any;
+  @Input('link') link: any;
   @Input('buttons') buttons: any[];
 
   prefTime: string = "all times";
