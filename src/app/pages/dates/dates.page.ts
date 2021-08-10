@@ -45,14 +45,17 @@ export class DatesPage implements OnInit {
 
     this.users = await this.db.list('users');
 
+    await this.init();
+  }
+
+  async init() {
     this.pros = await this.db.where({
       c: 'prospects',
       w: 'uids',
       o: 'array-contains', 
       q: this.user.uid,
       id: 'id'
-    })
-
+    });
   }
 
   getAvailableDaysInMonth(afms?:any) {
@@ -132,7 +135,7 @@ export class DatesPage implements OnInit {
     await ctrl.present();
   }
 
-  pd = {
+  prospect = {
 
     view: (id) => {
       return '/prospects'+id
@@ -146,32 +149,39 @@ export class DatesPage implements OnInit {
         dialogTitle: 'Share this meetup date',
       });
     },
+
+    add: async (date) => {
+      const u = this.user;
+      const c = await this.alert.confirm('Would you like to share this date?');
+      if(c){
+        await this.db.add('prospects', {
+          prospector: (this.users.find(e => e.uid == u.uid))?.displayName||null,
+          date: date.toString(),
+          uids: [u.uid],
+          uid: u.uid
+        });
+      };
+      this.reload();
+    },
   
     delete: async (id) => {
       const c = await this.alert.confirm('Would you like to delete this date?');
       if(c) {
         await this.db.delete('prospects', id);
+        this.reload();
       }
     }
+
   }
 
-  async prospect(date) {
-    const u = this.user;
-    const c = await this.alert.confirm('Would you like to share this date?');
-    if(c){
-      await this.db.add('prospects', {
-        prospector: (this.users.find(e => e.uid == u.uid))?.displayName||null,
-        date: date.toString(),
-        uids: [u.uid],
-        uid: u.uid
-      });
-      window.location.reload();
-    };
-  }
 
   segmentChanged(ev: any) {
     const v = ev?.detail?.value;
     this.display = v;
+  }
+
+  reload() {
+    window.location.reload();
   }
 
 }

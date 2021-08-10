@@ -41,7 +41,7 @@
         *ngIf="availableUsersForThisDate(date) as users" 
         [date]="date" 
         [users]="users"
-        (click)="prospect(date)"
+        (click)="prospect.add(date)"
         ></date-card>
         <!-- (click)="view($event, date, users)" -->
       </div>
@@ -60,8 +60,8 @@
         [date]="pr?.date"
         [id]="pr?.id"
         [buttons]="[
-          {func:pd.share, icon:'share'},
-          {func:pd.delete, icon:'trash'}
+          {func:prospect.share, icon:'share'},
+          {func:prospect.delete, icon:'trash'}
         ]"
         [link]="'prospect/'+pr?.id"
         ></date-card>
