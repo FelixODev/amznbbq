@@ -9,4 +9,7 @@
 // });
 
 
-export * as user from './functions/user';
+// export * as user from './functions/user';
+import * as f from '@fostack/fire';
+
+export const user = f.user;

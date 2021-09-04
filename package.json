@@ -13,8 +13,12 @@
     "debug": "ionic build",
     "prod": "ionic build --prod",
     "fire": "firebase deploy --only hosting:app",
-    "deploy-debug": "npm run debug && npm run fire",
-    "deploy-prod": "npm run prod && npm run fire"
+    "build-test": "ionic build -- -c=test",
+    "deploy-test":"firebase use test && npm run build-test && firebase deploy hosting:test",
+    "deploy-all-test": "npm run deploy-test && firebase deploy --only functions",
+    "deploy-fire": "firebase use default && npm run fire",
+    "deploy-debug": "firebase use default && npm run debug && npm run fire",
+    "deploy-prod": "firebase use default && npm run prod && npm run fire"
   },
   "private": true,
   "dependencies": {
